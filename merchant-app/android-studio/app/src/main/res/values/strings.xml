@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Paysafe Test</string>
+
+    <!-- Splash Screen -->
+    <string name="splash_text">Copyright(C) 2016 paysafe.All rights reserved.</string>
+
+    <!-- CheckOut -->
+    <string name="shoe">Shoe</string>
+    <string name="details_label">Details: </string>
+    <string name="details"> Comfortable sports shoe. Tap to checkout.</string>
+    <string name="checkout">CheckOut</string>
+
+
+    <!-- Pay Now -->
+    <string name="back">Back</string>
+    <string name="merchant_ref">Merchant Ref:</string>
+    <string name="amount">Amount:</string>
+    <string name="loading_text">Please Wait...</string>
+
+    <!-- Card Details -->
+    <string name="enter_your_card_details">Enter Your card details </string>
+    <string name="name_on_card">Holder Name:</string>
+    <string name="billing_address">Billing Address</string>
+    <string name="street1">Street 1:</string>
+    <string name="street2">Street 2:</string>
+    <string name="city">City:</string>
+    <string name="country">Country:</string>
+    <string name="state">State:</string>
+    <string name="month">Month</string>
+    <string name="expiry">Expiry:</string>
+    <string name="year">Year</string>
+    <string name="zip">Zip:</string>
+    <string name="card_no">Card No:</string>
+    <string name="cvv">CVV:</string>
+    <string name="confirm">Confirm</string>
+
+    <!-- menu -->
+    <string name="google_pay">Google Pay</string>
+    <string name="single_use_token">Single Use Token</string>
+
+    <!-- Button -->
+
+    <!-- Gateway -->
+    <string name="gateway">paysafe</string>
+
+    <!-- Google Pay Payload-->
+    <string name="googlepay_payload">Google Pay Payload</string>
+
+    <!-- Google Pay Token -->
+    <string name="signature">Signature</string>
+    <string name="protocol_version">Protocol Version</string>
+    <string name="signed_message">Signed Message</string>
+
+    <!-- Authorize -->
+    <string name="payment_token">Payment Token</string>
+    <string name="authorize">Authorize</string>
+
+    <!-- server Url authorize -->
+    <string name="url_authorize">https://api.test.paysafe.com/cardpayments/v1/accounts/%s/auths</string>
+    <string name="card_no_hint">XXXX-XXXX-XXXX-XXXX</string>
+    <string name="card_no_value">4111111111111111</string>
+
+</resources>

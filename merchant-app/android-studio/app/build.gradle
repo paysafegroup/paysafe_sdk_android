@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+
+android {
+
+    compileSdkVersion 28
+
+    defaultConfig {
+        applicationId "com.paysafeprodapp"
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 25
+        versionName "2.0.0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('paysafetest.jks')
+            storePassword "******"
+            keyAlias "******"
+            keyPassword "******"
+        }
+    }
+
+    buildTypes {
+        debug {
+            multiDexEnabled true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            multiDexEnabled true
+            signingConfig signingConfigs.release
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/java'
+        main.java.srcDirs += '../../java-common-src'
+    }
+
+}
+configurations {
+    all*.exclude group: 'com.google.code.gson'
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.google.android.gms:play-services-wallet:16.0.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation project(path: ':app-release')
+}
+
+

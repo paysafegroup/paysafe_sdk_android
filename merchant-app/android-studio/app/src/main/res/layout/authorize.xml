@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="110dp"
+            android:layout_height="30dip"
+            android:layout_margin="10dp"
+            android:background="@android:color/transparent"
+            android:text="@string/back"
+            android:textColor="@color/button_blue_bgcolor"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dip" >
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:lines="1"
+            android:text="@string/merchant_ref"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/et_merchantref"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:background="@drawable/configure_edittext_selector"
+            android:inputType="none"
+            android:gravity="center"
+            android:longClickable="false"
+            android:maxLength="255"
+            android:text="test_2015_323_sdfa"
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dip" >
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:lines="1"
+            android:text="@string/amount"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/et_amount"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:background="@drawable/configure_edittext_selector"
+            android:gravity="center"
+            android:inputType="numberSigned"
+            android:longClickable="false"
+            android:maxLength="11"
+            android:text="1"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dip" >
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:lines="1"
+            android:text="@string/payment_token"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/et_payment_token"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:background="@drawable/configure_edittext_selector"
+            android:gravity="center"
+            android:longClickable="true"
+            android:maxLength="30"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dip"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="10dip" >
+
+        <Button
+            android:id="@+id/btn_authorize"
+            style="@style/BlueButton"
+            android:layout_width="148dp"
+            android:layout_height="@dimen/button_height"
+            android:paddingLeft="10dp"
+            android:text="@string/authorize" />
+
+    </LinearLayout>
+
+</LinearLayout>

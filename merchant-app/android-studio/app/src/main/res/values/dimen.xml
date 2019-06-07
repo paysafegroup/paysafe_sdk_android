@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- text size -->
+    <dimen name="button_text_size">17.33sp</dimen>
+    <!-- width and height of button -->
+    <dimen name="button_width">187.33dp</dimen>
+    <dimen name="button_height">43.33dp</dimen>
+
+
+</resources>

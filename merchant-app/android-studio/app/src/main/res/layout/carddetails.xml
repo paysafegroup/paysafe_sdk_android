@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"
+                android:text="@string/back"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_your_card_details"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dip"
+            android:visibility="visible" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="@string/card_no" />
+
+            <EditText
+                android:id="@+id/et_card_no"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:background="@drawable/configure_edittext_selector"
+                android:gravity="center"
+                android:hint="@string/card_no_hint"
+                android:inputType="numberSigned"
+                android:maxLength="19"
+                android:text="@string/card_no_value"
+                android:textColor="@android:color/black" />
+
+            <requestFocus />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dip"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="@string/cvv" />
+
+            <EditText
+                android:id="@+id/et_cvv"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:background="@drawable/configure_edittext_selector"
+                android:gravity="center"
+                android:inputType="textPassword|numberSigned"
+                android:maxLength="3"
+                android:text=""
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/tv_expiry"
+                style="@style/cardExp"
+                android:paddingBottom="10dip"
+                android:text="@string/expiry" />
+
+            <TextView
+                android:id="@+id/tv_month"
+                style="@style/cardExp"
+                android:paddingBottom="10dip"
+                android:text="@string/month" />
+
+            <EditText
+                android:id="@+id/et_month"
+                style="@style/cardExp"
+                android:background="@drawable/configure_edittext_selector"
+                android:inputType="numberSigned"
+                android:maxLength="2"
+                android:text="12" />
+
+            <TextView
+                android:id="@+id/tv_year"
+                style="@style/cardExp"
+                android:background="@drawable/transparent"
+                android:text="@string/year" />
+
+            <EditText
+                android:id="@+id/et_year"
+                style="@style/cardExp"
+                android:background="@drawable/configure_edittext_selector"
+                android:inputType="numberSigned"
+                android:maxLength="4"
+                android:text="2019" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dip"
+            android:visibility="visible" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="@string/name_on_card" />
+
+            <EditText
+                android:id="@+id/et_name_on_card"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:background="@drawable/configure_edittext_selector"
+                android:gravity="center"
+                android:longClickable="false"
+                android:text="MR. JOHN SMITH" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dip"
+            android:visibility="visible" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="@string/billing_address"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dip"
+            android:visibility="visible" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="@string/street1" />
+
+            <EditText
+                android:id="@+id/et_street1"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:background="@drawable/configure_edittext_selector"
+                android:gravity="center"
+                android:inputType="textMultiLine"
+                android:longClickable="false"
+                android:maxLength="50"
+                android:text="100 Queen Street West" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dip"
+            android:visibility="visible" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="@string/street2" />
+
+            <EditText
+                android:id="@+id/et_street2"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:background="@drawable/configure_edittext_selector"
+                android:gravity="center"
+                android:inputType="textMultiLine"
+                android:longClickable="false"
+                android:maxLength="50"
+                android:text="Unit 201" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dip"
+            android:visibility="visible" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="@string/city" />
+
+            <EditText
+                android:id="@+id/et_city"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:background="@drawable/configure_edittext_selector"
+                android:gravity="center"
+                android:inputType="textMultiLine"
+                android:longClickable="false"
+                android:maxLength="40"
+                android:text="Toronto" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dip"
+            android:visibility="visible" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="@string/state" />
+
+            <EditText
+                android:id="@+id/et_state"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:background="@drawable/configure_edittext_selector"
+                android:gravity="center"
+                android:inputType="textMultiLine"
+                android:longClickable="false"
+                android:maxLength="40"
+                android:text="ON" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dip"
+            android:visibility="visible" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="@string/country" />
+
+            <EditText
+                android:id="@+id/et_country"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:background="@drawable/configure_edittext_selector"
+                android:gravity="center"
+                android:longClickable="false"
+                android:text="CA" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dip"
+            android:visibility="visible" >
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:text="@string/zip" />
+
+            <EditText
+                android:id="@+id/et_zip"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:background="@drawable/configure_edittext_selector"
+                android:gravity="center"
+                android:inputType="textMultiLine"
+                android:longClickable="false"
+                android:maxLength="10"
+                android:text="M5H 2N2" >
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottomlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dip"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="10dip" >
+
+            <Button
+                android:id="@+id/btn_Confirm"
+                style="@style/BlueButton"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:text="@string/confirm" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

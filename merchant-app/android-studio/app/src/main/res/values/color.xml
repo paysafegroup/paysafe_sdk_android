@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- For Button -->
+    <color name="button_gray_bgcolor">#959595</color>
+    <color name="edittext_focused_border">#555555</color>
+    <color name="button_blue_bgcolor">#0072bc</color>
+    <color name="white">#ffffff</color>
+
+</resources>
