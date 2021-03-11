@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright © Paysafe Holdings UK Limited 2019. For more information see LICENSE
+  -->
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/toolbarButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:layout_gravity="end"
+          android:paddingEnd="@dimen/marginTop"
+          android:text="@string/cancel"
+          android:textSize="16sp"
+          android:clickable="true"
+          android:textAppearance="@style/otpBodyText"
+          android:focusable="true"/>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright © Paysafe Holdings UK Limited 2019. For more information see LICENSE
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/nav_main"
+            app:startDestination="@id/storeFragment">
+
+    <fragment android:id="@+id/storeFragment"
+              android:name="com.paysafe.demo.store.StoreFragment"
+              android:label="StoreFragment"
+              tools:layout="@layout/fragment_store">
+
+        <action android:id="@+id/action_storeFragment_to_previewFragment"
+                app:destination="@id/previewFragment" />
+        <action
+                android:id="@+id/action_storeFragment_to_googlePayFragment"
+                app:destination="@id/googlePayFragment" />
+
+    </fragment>
+
+    <fragment android:id="@+id/previewFragment"
+              android:name="com.paysafe.demo.PreviewFragment"
+              android:label="PreviewFragment"
+              tools:layout="@layout/fragment_preview">
+
+        <action android:id="@+id/action_previewFragment_to_cardsFragment"
+                app:destination="@id/cardsFragment"/>
+
+        <action android:id="@+id/action_previewFragment_to_addressFragment"
+                app:destination="@id/addressFragment"/>
+
+    </fragment>
+
+    <fragment android:id="@+id/cardsFragment"
+              android:name="com.paysafe.demo.cards.CardsFragment"
+              android:label="CardsFragment"
+              tools:layout="@layout/fragment_cards">
+
+        <action android:id="@+id/action_cardsFragment_to_addCardFragment"
+                app:destination="@id/addCardFragment"/>
+
+    </fragment>
+
+    <fragment android:id="@+id/addCardFragment"
+              android:name="com.paysafe.demo.addcard.AddCardFragment"
+              android:label="AddCardFragment"
+              tools:layout="@layout/fragment_add_card"/>
+
+    <fragment android:id="@+id/addressFragment"
+              android:name="com.paysafe.demo.address.AddressFragment"
+              android:label="AddressFragment"
+              tools:layout="@layout/fragment_address"/>
+    <fragment
+            android:id="@+id/googlePayFragment"
+            android:name="com.paysafe.demo.googlepay.GooglePayFragment"
+            android:label="GooglePayFragment"
+            tools:layout="@layout/fragment_google_pay"/>
+</navigation>

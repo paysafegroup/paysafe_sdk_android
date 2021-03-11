@@ -1,0 +1,78 @@
+/*
+ *  Copyright © Paysafe Holdings UK Limited 2019. For more information see LICENSE
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        applicationId "com.paysafe.demo"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 8
+        versionName "1.0.7"
+        multiDexEnabled true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+}
+
+dependencies {
+    // Multidex
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:${rootProject.appcompat_version}"
+    implementation "androidx.core:core-ktx:${rootProject.android_ktx_version}"
+    implementation "androidx.constraintlayout:constraintlayout:${rootProject.constraint_layout_version}"
+    implementation project(":lib")
+
+    implementation "androidx.legacy:legacy-support-v4:${rootProject.legacy_support_version}"
+    testImplementation "junit:junit:${rootProject.junit_version}"
+    androidTestImplementation "androidx.test:runner:${rootProject.runner_version}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${rootProject.espresso_version}"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:${rootProject.retrofit_version}"
+    implementation "com.squareup.retrofit2:converter-gson:${rootProject.retrofit_version}"
+    
+    implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.okhttp_version}"
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:${rootProject.lifecycle_version}"
+
+    // Navigation component
+    implementation "androidx.navigation:navigation-fragment-ktx:${rootProject.nav_version}"
+    implementation "androidx.navigation:navigation-ui-ktx:${rootProject.nav_version}"
+
+    // Kotlin coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${rootProject.kotlin_coroutines}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${rootProject.kotlin_coroutines}"
+
+    // Google Pay
+    implementation "com.google.android.gms:play-services-wallet:${rootProject.play_services_wallet_version}"
+
+}

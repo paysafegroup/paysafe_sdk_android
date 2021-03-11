@@ -1,0 +1,50 @@
+<!--
+  ~  Copyright © Paysafe Holdings UK Limited 2019. For more information see LICENSE
+  -->
+
+<resources>
+    <string name="app_name">Paysafe Payments Demo</string>
+    <string name="btn_buy">Buy</string>
+    <string name="label_total">Total:</string>
+    <string name="label_card">Card:</string>
+    <string name="label_address">Address:</string>
+    <string name="btn_add_card">+ Add card</string>
+    <string name="btn_add_address">+ Add address</string>
+    <string name="btn_pay">Pay</string>
+
+    <string name="hint_card_number">Card Number</string>
+    <string name="hint_expiry_date">Exp date</string>
+    <string name="hint_cvv">CVV</string>
+
+    <string name="error_card_number">Enter valid card number!</string>
+    <string name="error_expiry_date">Enter valid expiry date!</string>
+    <string name="error_cvv">Enter valid CVV!</string>
+
+    <!--Address fields hints-->
+    <string name="hint_address_line1">Address Line 1</string>
+    <string name="hint_address_line2">Address Line 2 (optional)</string>
+    <string name="hint_address_city">City</string>
+    <string name="hint_address_state">State</string>
+    <string name="hint_address_country">Country</string>
+    <string name="hint_address_postcode">Postcode</string>
+
+    <!--Address fields-->
+    <string name="address_line1">100 Queen Street West</string>
+    <string name="address_line2">Unit 201</string>
+    <string name="address_city">Toronto</string>
+    <string name="address_state">Ontario</string>
+    <string name="address_country">Canada</string>
+    <string name="address_postcode">M4B 1B4</string>
+    <string name="empty_field_error">This field is mandatory!</string>
+
+    <string name="select_card_and_address">Please select card and address</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="transaction_successful">Transaction successful</string>
+    <string name="token_id">Token ID: </string>
+
+
+    <string name="select_payment_option">Select payment option</string>
+    <string name="google_pay_not_available">Google Pay is not available!</string>
+    <string name="google_pay_not_available_emulator">Google Pay is not available on emulator!</string>
+
+</resources>

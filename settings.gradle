@@ -1,0 +1,5 @@
+/*
+ *  Copyright © Paysafe Holdings UK Limited 2019. For more information see LICENSE
+ */
+
+include ':sample-app', ':lib', ':demo'

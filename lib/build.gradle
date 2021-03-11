@@ -1,0 +1,209 @@
+/*
+ *  Copyright © Paysafe Holdings UK Limited 2019. For more information see LICENSE
+ */
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'de.mobilej.unmock'
+apply plugin: 'kotlin-allopen'
+apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
+
+jacoco {
+    toolVersion = "$jacocoVersion"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+androidExtensions {
+    experimental = true
+}
+
+android {
+    compileSdkVersion 29
+
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 7
+        versionName '1.0.8'
+        archivesBaseName = 'paysafe-mobile-sdk'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+    testOptions {
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+    }
+
+    libraryVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "paysafe-mobile-sdk-${variant.name}.aar"
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+task javadocJar(type: Jar) {
+    from javadoc.destinationDir
+    archiveClassifier = 'javadoc'
+}
+
+publishing {
+
+    publications {
+        maven(MavenPublication) {
+            groupId 'com.paysafe'
+            artifactId 'paysafe-mobile-sdk'
+
+            def artifactSuffix = project.hasProperty('release') ? 'release' : 'debug'
+            artifact "build/outputs/aar/${project.archivesBaseName}-${artifactSuffix}.aar"
+            artifact sourcesJar
+            artifact javadocJar
+
+            version project.hasProperty('release') ? android.defaultConfig.versionName : "$android.defaultConfig.versionName-SNAPSHOT"
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.implementation.allDependencies.withType(ModuleDependency) { ModuleDependency dependency ->
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', dependency.group)
+                    dependencyNode.appendNode('artifactId', dependency.name)
+                    dependencyNode.appendNode('version', dependency.version)
+
+                    if (dependency.excludeRules.size() > 0) {
+                        def exclusionsNode = dependencyNode.appendNode('exclusions')
+                        dependency.excludeRules.forEach { ExcludeRule exclusion ->
+                            def exclusionNode = exclusionsNode.appendNode('exclusion')
+                            exclusionNode.appendNode('groupId', exclusion.group)
+                            exclusionNode.appendNode('artefactId', exclusion.module)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+unMock {
+    keepStartingWith "android.util."
+    keepStartingWith "org.json."
+    keep "android.net.Uri"
+}
+
+allOpen {
+    annotation("com.paysafe.Mockable")
+}
+
+dependencies {
+
+    implementation 'org.jfrog.cardinalcommerce.gradle:cardinalmobilesdk:2.2.3-2'
+
+    implementation "androidx.appcompat:appcompat:1.1.0"
+
+    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.1.0"
+
+    implementation "com.squareup.okhttp3:okhttp:3.12.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
+
+    implementation "com.google.code.gson:gson:2.8.5"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    testImplementation "junit:junit:4.12"
+    testImplementation "org.mockito:mockito-core:3.0.0"
+    testImplementation 'android.arch.core:core-testing:2.0.0'
+
+    unmock "org.robolectric:android-all:4.3_r2-robolectric-0"
+
+    androidTestImplementation "androidx.test:runner:1.2.0"
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+    group = "Reporting"
+
+    reports {
+        html.enabled true
+        xml.enabled true
+    }
+
+    def fileFilter = ['**/R.class',
+                      '**/R$*.class',
+                      '**/BuildConfig.*',
+                      '**/*$ViewInjector*.*',
+                      '**/*$ViewBinder*.*',
+                      '**/*$MembersInjector*.*',
+                      '**/Manifest*.*',
+                      '**/*Test*.*',
+                      'android/**/*.*',
+                      '**/Lambda$*.class',
+                      '**/Lambda.class',
+                      '**/*Lambda.class',
+                      '**/*Lambda*.class',
+                      'com/paysafe/*.*', // The only thing we can cover is the PaysafeApiClient
+                      'com/paysafe/util/*.*', // Only DSLs and extensions
+                      'com/paysafe/customervault/data/*.*', // Only request / response models
+                      'com/paysafe/threedsecure/*.*', // Only builders, DSL and interfaces
+                      'com/paysafe/threedsecure/data/*.*', // Only request / response models
+                      'com/paysafe/threedsecure/ui/**/*.*', // UI classes not covered by unit tests
+                      'com/paysafe/threedsecure/util/*.*' // No logic to test
+    ]
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+    sourceDirectories.from = subprojects.sourceSets.main.allSource.srcDirs
+    classDirectories.from = files([debugTree])
+    executionData.from = files("${project.buildDir}/jacoco/testDebugUnitTest.exec")
+}
+
+
+jacoco {
+    toolVersion = "0.8.4"
+    reportsDir = file("$buildDir/jacocoReportDir")
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "com.paysafe.threedsecure:lib"
+        property "sonar.projectName", "Paysafe 3DS SDK"
+        property "sonar.sources", "src/main, build.gradle"
+        property "sonar.binaries", "build/intermediates/classes/debug"
+        property "sonar.tests", "src/test"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/jacocoReportDir/jacocoTestReport/jacocoTestReport.xml"
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.junit.reportsPath", "build/test-results/testDebugUnitTest"
+        property "sonar.exclusions", "**/*.png,src/main/assets/**"
+        property "sonar.analysis.mode", "publish"
+    }
+}

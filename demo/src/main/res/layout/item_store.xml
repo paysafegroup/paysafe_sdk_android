@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright © Paysafe Holdings UK Limited 2019. For more information see LICENSE
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/cv_item"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_margin="@dimen/item_margin"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="10dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardBackgroundColor="@color/colorGrey">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                       android:id="@+id/iv_icon"
+                       android:layout_width="@dimen/item_icon_height_width"
+                       android:layout_height="@dimen/item_icon_height_width"
+                       android:scaleType="fitCenter"
+                       android:layout_margin="@dimen/item_margin"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       tools:src="@drawable/phone"/>
+
+            <TextView android:id="@+id/tv_title"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textSize="20sp"
+                      android:layout_margin="@dimen/item_margin"
+                      android:textColor="@color/colorBlack"
+                      app:layout_constraintStart_toEndOf="@+id/iv_icon"
+                      app:layout_constraintTop_toTopOf="parent"
+                      tools:text="Phone"/>
+
+            <TextView android:id="@+id/tv_price"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textSize="22sp"
+                      android:layout_margin="@dimen/item_margin"
+                      android:textColor="@color/colorBlack"
+                      app:layout_constraintEnd_toEndOf="parent"
+                      app:layout_constraintTop_toTopOf="parent"
+                      tools:text="$400.00"/>
+
+            <TextView android:id="@+id/tv_description"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:textSize="18sp"
+                      android:layout_margin="@dimen/item_margin"
+                      android:maxLines="3"
+                      android:ellipsize="end"
+                      app:layout_constraintStart_toEndOf="@+id/iv_icon"
+                      app:layout_constraintTop_toBottomOf="@id/tv_title"
+                      app:layout_constraintEnd_toStartOf="@id/btn_buy"
+                      tools:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "/>
+
+            <Button android:id="@+id/btn_buy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/item_margin"
+                    android:background="@color/colorBlue"
+                    android:text="@string/btn_buy"
+                    android:textAllCaps="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_price"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

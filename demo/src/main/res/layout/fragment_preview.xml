@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright © Paysafe Holdings UK Limited 2019. For more information see LICENSE
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel"
+                  type="com.paysafe.demo.PreviewViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
+
+        <TextView
+                android:id="@+id/tv_total_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_total"
+                android:textSize="@dimen/text_size_default"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+                android:id="@+id/tv_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_default"
+                android:textColor="@color/colorBlack"
+                android:text="@{`$ ` + viewModel.totalPrice}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="$ 400"/>
+
+        <TextView
+                android:id="@+id/tv_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
+                android:textSize="@dimen/text_size_default"
+                android:textColor="@color/colorBlack"
+                android:text="@string/label_card"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_total_label"
+                tools:text="Card"/>
+
+        <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:textSize="@dimen/text_size_default"
+                android:textColor="@color/colorBlack"
+                android:text="@string/label_address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_card"
+                tools:text="Address"/>
+
+        <Button
+                android:id="@+id/btn_add_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_add_card"
+                app:layout_constraintTop_toTopOf="@id/tv_card"
+                app:layout_constraintBottom_toBottomOf="@id/tv_card"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+                android:id="@+id/tv_card_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_default"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintTop_toTopOf="@id/tv_card"
+                app:layout_constraintBottom_toBottomOf="@id/tv_card"
+                app:layout_constraintStart_toEndOf="@id/tv_card"
+                android:visibility="gone"
+                android:text="@{` (*` + viewModel.card.getCardLastDigits() + `)`}"
+                tools:text=" (*1111)`"/>
+
+        <Button
+                android:id="@+id/btn_add_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_add_address"
+                app:layout_constraintTop_toTopOf="@id/tv_address"
+                app:layout_constraintBottom_toBottomOf="@id/tv_address"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+                android:id="@+id/iv_address_checkmark"
+                android:layout_width="@dimen/checkmark_icon_width"
+                android:layout_height="@dimen/checkmark_icon_height"
+                android:src="@drawable/ic_checkmark"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="@id/tv_address"
+                app:layout_constraintBottom_toBottomOf="@id/tv_address"
+                app:layout_constraintStart_toEndOf="@id/tv_address"/>
+
+        <Button
+                android:id="@+id/btn_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
+                android:text="@string/btn_pay"
+                app:layout_constraintTop_toBottomOf="@id/tv_address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
