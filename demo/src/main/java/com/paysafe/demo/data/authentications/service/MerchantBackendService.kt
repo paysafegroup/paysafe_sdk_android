@@ -40,7 +40,7 @@ interface MerchantBackendService {
     ): Response<AuthenticationIdResponse>
 
     companion object {
-        private const val BASE_URL = "https://test.api.paysafe.com"
+        private const val BASE_URL = "https://api.test.paysafe.com"
 
         fun create(): MerchantBackendService {
             return Retrofit.Builder()

@@ -13,8 +13,8 @@ android {
         applicationId "com.paysafe.demo"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 8
-        versionName "1.0.7"
+        versionCode 9
+        versionName "1.0.8"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
