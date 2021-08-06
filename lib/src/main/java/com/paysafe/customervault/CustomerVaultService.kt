@@ -12,6 +12,7 @@ import com.paysafe.customervault.data.SingleUseToken
 import com.paysafe.customervault.data.SingleUseTokenParams
 import com.paysafe.customervault.data.api.CustomerVaultApi
 import com.paysafe.customervault.domain.CreateGooglePaySingleUseTokenUseCase
+import com.paysafe.customervault.domain.CreateGooglePaySingleUseTokenWithFullPayloadUseCase
 import com.paysafe.customervault.domain.CreateSingleUseTokenUseCase
 
 interface CustomerVaultService {
@@ -23,6 +24,11 @@ interface CustomerVaultService {
 
     fun createGooglePayPaymentToken(
         params: GooglePayTokenParams,
+        callback: CustomerVaultCallback<GooglePaySingleUseToken>
+    )
+
+    fun createGooglePayPaymentToken(
+        params: String,
         callback: CustomerVaultCallback<GooglePaySingleUseToken>
     )
 
@@ -50,7 +56,8 @@ interface CustomerVaultService {
 
             return CustomerVaultServiceImpl(
                 CreateSingleUseTokenUseCase(api),
-                CreateGooglePaySingleUseTokenUseCase(api)
+                CreateGooglePaySingleUseTokenUseCase(api),
+                CreateGooglePaySingleUseTokenWithFullPayloadUseCase(api)
             )
         }
 

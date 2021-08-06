@@ -4,6 +4,7 @@
 
 package com.paysafe.customervault.data.api
 
+import com.google.gson.JsonObject
 import com.paysafe.ApiRequest
 import com.paysafe.ApiResponse
 import com.paysafe.Mockable
@@ -14,7 +15,6 @@ import com.paysafe.customervault.data.GooglePayTokenParams
 import com.paysafe.customervault.data.SingleUseToken
 import com.paysafe.customervault.data.SingleUseTokenParams
 import com.paysafe.util.Result
-
 @Mockable
 internal class CustomerVaultApi(private val apiClient: PaysafeApiClient) {
 
@@ -30,6 +30,16 @@ internal class CustomerVaultApi(private val apiClient: PaysafeApiClient) {
 
     internal fun createGooglePaySingleUseToken(
         params: GooglePayTokenParams,
+        callback: (Result<GooglePaySingleUseToken, Error>) -> Unit
+    ) = with(
+        ApiRequest(
+            path = GOOGLE_PAY_SINGLE_USE_TOKEN_PATH,
+            body = params
+        )
+    ) { executeWith(callback) }
+
+    internal fun createGooglePaySingleUseToken(
+        params: JsonObject,
         callback: (Result<GooglePaySingleUseToken, Error>) -> Unit
     ) = with(
         ApiRequest(

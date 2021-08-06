@@ -11,18 +11,32 @@ import org.json.JSONObject
 object GooglePayRequestHelper {
 
     fun createPaymentDataRequest(totalPrice: Int?): PaymentDataRequest {
-        val request = PaymentDataRequest.newBuilder()
-            .setTransactionInfo(createTransactionInfo(totalPrice))
-            .addAllowedPaymentMethods(
-                listOf(
-                    WalletConstants.PAYMENT_METHOD_CARD,
-                    WalletConstants.PAYMENT_METHOD_TOKENIZED_CARD
-                )
-            )
-            .setCardRequirements(createCardRequirements())
-        request.setPaymentMethodTokenizationParameters(getPaymentTokenizationParameters())
-        return request.build()
+        val request = PaymentDataRequest.fromJson(JSONObject().apply {
+            put("apiVersion", GOOGLE_PAY_API_VERSION)
+            put("apiVersionMinor", GOOGLE_PAY_API_VERSION_MINOR)
+            put("allowedPaymentMethods", JSONArray().put(baseCardPaymentMethod()))
+            put("transactionInfo",createTransactionInfo(totalPrice))
+        }.toString())
+        return request;
     }
+
+    private fun baseCardPaymentMethod(): JSONObject {
+        return JSONObject().apply {
+
+            val parameters = JSONObject().apply {
+                put("allowedAuthMethods", allowedCardAuthMethods)
+                put("allowedCardNetworks", allowedCardNetworks)
+            }
+
+            put("type", "CARD")
+            put("parameters", parameters)
+            put("tokenizationSpecification", getPaymentTokenizationParameters())
+        }
+    }
+
+    private val allowedCardAuthMethods = JSONArray(listOf(
+        "PAN_ONLY",
+        "CRYPTOGRAM_3DS"))
 
     fun getGooglePayBaseConfigurationJson() =
         JSONObject().apply {
@@ -32,13 +46,18 @@ object GooglePayRequestHelper {
         }
             .toString()
 
-    private fun createTransactionInfo(totalPrice: Int?) = TransactionInfo.newBuilder()
-        .setTotalPriceStatus(
-            WalletConstants.TOTAL_PRICE_STATUS_FINAL
-        )
-        .setTotalPrice(totalPrice.toString())
-        .setCurrencyCode(PAYMENT_CURRENCY)
-        .build()
+    private fun createTransactionInfo(totalPrice: Int?) = JSONObject().apply {
+        put("totalPrice", totalPrice.toString())
+        put("totalPriceStatus", "FINAL")
+        put("currencyCode", PAYMENT_CURRENCY)
+    }
+
+    private val allowedCardNetworks = JSONArray(listOf(
+        "AMEX",
+        "DISCOVER",
+        "INTERAC",
+        "MASTERCARD",
+        "VISA"))
 
     private fun createCardRequirements() =
         CardRequirements.newBuilder()
@@ -59,16 +78,14 @@ object GooglePayRequestHelper {
             put("allowedAuthMethods", JSONArray(listOf("PAN_ONLY", "CRYPTOGRAM_3DS")))
         })
     }
-
-    private fun getPaymentTokenizationParameters() =
-        PaymentMethodTokenizationParameters.newBuilder()
-            .setPaymentMethodTokenizationType(
-                WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY
-            )
-            .addParameter("gateway", PAYMENT_REQUEST_GATEWAY)
-            .addParameter("gatewayMerchantId", PAYMENT_REQUEST_GATEWAY_MERCHANT_ID
-            )
-            .build()
+    private fun getPaymentTokenizationParameters(): JSONObject {
+        return JSONObject().apply {
+            put("type", "PAYMENT_GATEWAY")
+            put("parameters", JSONObject(mapOf(
+                "gateway" to PAYMENT_REQUEST_GATEWAY,
+                "gatewayMerchantId" to PAYMENT_REQUEST_GATEWAY_MERCHANT_ID)))
+        }
+    }
 
     private const val GOOGLE_PAY_API_VERSION = 2
     private const val GOOGLE_PAY_API_VERSION_MINOR = 0

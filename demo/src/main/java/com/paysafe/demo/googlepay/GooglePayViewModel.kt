@@ -6,18 +6,15 @@ package com.paysafe.demo.googlepay
 
 import android.app.Activity
 import android.app.Application
-import android.view.View
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.wallet.*
-import com.google.gson.Gson
 import com.paysafe.customervault.CustomerVaultCallback
 import com.paysafe.customervault.data.GooglePaySingleUseToken
-import com.paysafe.customervault.data.GooglePayTokenParams
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -25,7 +22,6 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import com.paysafe.common.Error
 import com.paysafe.demo.*
-import com.paysafe.demo.R
 import com.paysafe.demo.data.authentications.AuthenticationRepository
 import com.paysafe.demo.data.authentications.PaymentStatus
 import com.paysafe.demo.data.authentications.Result
@@ -109,23 +105,9 @@ class GooglePayViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     private suspend fun createToken(paymentData: PaymentData): String {
-        val token = paymentData.paymentMethodToken?.token
-        val googlePayPayload: GooglePayTokenParams.GooglePayPaymentToken = Gson().fromJson(
-            token,
-            GooglePayTokenParams.GooglePayPaymentToken::class.java
-        )
         return suspendCoroutine { continuation ->
             customerVaultService.createGooglePayPaymentToken(
-
-                GooglePayTokenParams.Builder()
-                    .withToken(
-                        GooglePayTokenParams.GooglePayPaymentToken.Builder()
-                            .withProtocolVersion(googlePayPayload.protocolVersion)
-                            .withSignedMessage(googlePayPayload.signedMessage)
-                            .withSignature(googlePayPayload.signature)
-                            .build()
-                    )
-                    .build(), object : CustomerVaultCallback<GooglePaySingleUseToken> {
+                paymentData.toJson(), object : CustomerVaultCallback<GooglePaySingleUseToken> {
 
                     override fun onSuccess(token: GooglePaySingleUseToken) {
                         _googlePaySingleUseTokenStatus.postValue(Event(token))
