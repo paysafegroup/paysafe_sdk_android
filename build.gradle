@@ -48,7 +48,7 @@ allprojects {
         jcenter()
         mavenCentral()
         maven {
-            url  "https://cardinalcommerce.bintray.com/android"
+            url  "https://cardinalcommerceprod.jfrog.io/artifactory/android"
             credentials {
                 username CARDINAL_USERNAME
                 password CARDINAL_PASSWORD
