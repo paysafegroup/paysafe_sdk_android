@@ -12,9 +12,10 @@ android {
     defaultConfig {
         applicationId "com.paysafe.demo"
         minSdkVersion 19
+        //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 29
         versionCode 9
-        versionName "1.0.8"
+        versionName "1.0.9"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -36,7 +37,6 @@ android {
     dataBinding {
         enabled = true
     }
-
 }
 
 dependencies {

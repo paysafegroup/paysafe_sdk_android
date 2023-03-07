@@ -8,11 +8,6 @@
     <application android:supportsRtl="true">
 
         <activity
-                android:name=".threedsecure.ui.v1.WebViewChallengeActivity"
-                android:screenOrientation="portrait"
-                android:theme="@style/PaysafeSDKTheme" />
-
-        <activity
                 android:name=".threedsecure.ui.v2.CardinalChallengeActivity"
                 android:theme="@style/Theme.AppCompat.Translucent" />
 

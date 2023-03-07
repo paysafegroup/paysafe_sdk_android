@@ -16,7 +16,6 @@ import com.paysafe.threedsecure.domain.FinalizeUseCase
 import com.paysafe.threedsecure.domain.HandleChallengeUseCase
 import com.paysafe.threedsecure.ui.BaseActivity
 import com.paysafe.threedsecure.util.ActivityLifecycleCallbacksAdapter
-import com.paysafe.threedsecure.ui.v1.WebViewChallengeViewModel
 import com.paysafe.threedsecure.ui.v2.CardinalChallengeViewModel
 
 @Suppress("UNCHECKED_CAST")
@@ -29,8 +28,6 @@ internal class ViewModelProviderFactory(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
         with(modelClass) {
             when {
-                isAssignableFrom(WebViewChallengeViewModel::class.java) ->
-                    WebViewChallengeViewModel(FinalizeUseCase(api))
 
                 isAssignableFrom(CardinalChallengeViewModel::class.java) ->
                     CardinalChallengeViewModel(

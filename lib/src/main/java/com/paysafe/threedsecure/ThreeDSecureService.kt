@@ -203,11 +203,7 @@ interface ThreeDSecureService {
 
             return ThreeDSecureServiceCardinalImpl(
                 StartUseCase(api, cardinal),
-                ProcessPayloadUseCase(),
-                apiClient.keyId,
-                apiClient.keyPassword,
-                apiClient.environment,
-                uiStyle
+                ProcessPayloadUseCase()
             )
         }
 
