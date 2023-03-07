@@ -47,7 +47,7 @@ class StoreFragment : Fragment() {
 
                 })
             }
-            dialog.show(this@StoreFragment.requireFragmentManager(), PAYMENT_OPTION_DIALOG_TAG)
+            dialog.show(this@StoreFragment.getParentFragmentManager(), PAYMENT_OPTION_DIALOG_TAG)
         }
     })
     private lateinit var binding: FragmentStoreBinding

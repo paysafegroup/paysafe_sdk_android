@@ -5,12 +5,9 @@
 package com.paysafe.threedsecure
 
 import android.content.Context
-import com.paysafe.Environment
 import com.paysafe.threedsecure.data.ChallengePayload
 import com.paysafe.threedsecure.domain.ProcessPayloadUseCase
 import com.paysafe.threedsecure.domain.StartUseCase
-import com.paysafe.threedsecure.ui.UiStyle
-import com.paysafe.threedsecure.ui.v1.WebViewChallengeActivity
 import com.paysafe.threedsecure.ui.v2.CardinalChallengeActivity
 import com.paysafe.util.MainThreadScheduler
 import com.paysafe.util.Result
@@ -19,10 +16,6 @@ import com.paysafe.util.Scheduler
 internal class ThreeDSecureServiceCardinalImpl(
     private val startUseCase: StartUseCase,
     private val processPayloadUseCase: ProcessPayloadUseCase,
-    private val keyId: String,
-    private val keyPassword: String,
-    private val environment: Environment,
-    private val uiStyle: UiStyle,
     private val callbackScheduler: Scheduler = MainThreadScheduler()
 ) : ThreeDSecureService {
 
@@ -39,11 +32,7 @@ internal class ThreeDSecureServiceCardinalImpl(
         processPayloadUseCase(payload) {
             when (it) {
                 is Result.Success ->
-                    if (it.data.threeDSecureVersion.startsWith(THREE_DS_VERSION_2_PREFIX)) {
                         callbackScheduler.post { callback.onSuccess(threeDs2ChallengeResolution(context, it)) }
-                    } else {
-                        callbackScheduler.post { callback.onSuccess(threeDs1ChallengeResolution(context, payload, it)) }
-                    }
 
                 is Result.Failure -> callbackScheduler.post {
                     callback.onError(
@@ -56,22 +45,6 @@ internal class ThreeDSecureServiceCardinalImpl(
             }
         }
     }
-
-    private fun threeDs1ChallengeResolution(
-        context: Context,
-        payload: String,
-        it: Result.Success<ChallengePayload>
-    ) = ChallengeResolution(
-        WebViewChallengeActivity.createStartIntent(
-            context.applicationContext,
-            keyId,
-            keyPassword,
-            environment,
-            payload,
-            it.data,
-            uiStyle.toolbarStyle
-        )
-    )
 
     private fun threeDs2ChallengeResolution(
         context: Context,

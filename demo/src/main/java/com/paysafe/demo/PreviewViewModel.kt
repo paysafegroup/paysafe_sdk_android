@@ -118,6 +118,8 @@ class PreviewViewModel(application: Application) : AndroidViewModel(application)
                             _transactionStatus.postValue(Event(authResponse.data.status))
                         }
                     }
+                    // Handle error appropriately
+                    // The following handling is just for demo purposes
                     is Result.Error -> _transactionStatus.postValue(Event(
                         PaymentStatus.FAILED.name))
                 }
@@ -164,7 +166,10 @@ class PreviewViewModel(application: Application) : AndroidViewModel(application)
                     }
 
                     override fun onError(error: Error) {
-                        continuation.resumeWithException(Exception(error.message))
+                        // Handle error appropriately
+                        // The following handling is just for demo purposes
+                        _transactionStatus.postValue(Event(
+                            PaymentStatus.FAILED.name))
                     }
 
                 }

@@ -4,13 +4,11 @@
 
 package com.paysafe.threedsecure
 
-import com.paysafe.Environment
 import com.paysafe.mock
 import com.paysafe.safeAny
 import com.paysafe.safeEq
 import com.paysafe.threedsecure.domain.ProcessPayloadUseCase
 import com.paysafe.threedsecure.domain.StartUseCase
-import com.paysafe.threedsecure.ui.UiStyle
 import com.paysafe.util.Result
 import com.paysafe.util.Scheduler
 import org.junit.Test
@@ -23,7 +21,6 @@ class ThreeDSecureServiceCardinalImplTest {
 
     private val startUseCase = mock<StartUseCase>()
     private val processPayloadUseCase = mock<ProcessPayloadUseCase>()
-    private val uiStyle = mock(UiStyle::class.java)
     private val handlerCallback = object : Scheduler {
         override fun post(r: () -> Unit) {
             r();
@@ -34,10 +31,6 @@ class ThreeDSecureServiceCardinalImplTest {
         ThreeDSecureServiceCardinalImpl(
             startUseCase,
             processPayloadUseCase,
-            KEY_ID,
-            KEY_PASSWORD,
-            Environment.TEST,
-            uiStyle,
             handlerCallback
         )
 
@@ -108,10 +101,4 @@ class ThreeDSecureServiceCardinalImplTest {
         verify(mockCallback).onSuccess(safeEq(deviceFingerprint))
     }
 
-    companion object {
-
-        private const val KEY_ID = "keyId"
-        private const val KEY_PASSWORD = "keyPass"
-
-    }
 }
