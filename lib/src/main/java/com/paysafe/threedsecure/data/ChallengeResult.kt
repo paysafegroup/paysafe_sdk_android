@@ -8,6 +8,8 @@ import android.app.Activity
 import android.content.Intent
 import com.paysafe.threedsecure.ThreeDSecureError
 import com.paysafe.threedsecure.ThreeDSecureService
+import com.paysafe.threedsecure.util.getRequiredParcelableExtra
+import com.paysafe.threedsecure.util.getRequiredStringExtra
 
 private const val EXTRA_RESULT_CODE = "com.paysafe.threedsecure.EXTRA_RESULT_CODE"
 private const val EXTRA_AUTHENTICATION_ID = "com.paysafe.threedsecure.EXTRA_AUTHENTICATION_ID"
@@ -55,8 +57,18 @@ sealed class ChallengeResult(val resultCode: Int) {
         @JvmName("fromIntent")
         fun Intent.toChallengeResult() =
             when (getIntExtra(EXTRA_RESULT_CODE, Activity.RESULT_CANCELED)) {
-                Activity.RESULT_OK -> Success(getStringExtra(EXTRA_AUTHENTICATION_ID))
-                else -> Failure(getParcelableExtra(EXTRA_AUTHENTICATION_ERROR))
+                Activity.RESULT_OK -> Success(
+                    getRequiredStringExtra(
+                        EXTRA_AUTHENTICATION_ID,
+                        "Missing EXTRA_AUTHENTICATION_ID"
+                    )
+                )
+                else -> Failure(
+                    getRequiredParcelableExtra(
+                        EXTRA_AUTHENTICATION_ERROR,
+                        "Missing EXTRA_AUTHENTICATION_ERROR"
+                    )
+                )
             }
 
     }

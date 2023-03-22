@@ -14,6 +14,8 @@ import com.paysafe.threedsecure.data.ChallengeResult
 import com.paysafe.threedsecure.data.toIntent
 import com.paysafe.threedsecure.ui.BaseActivity
 import com.paysafe.threedsecure.util.Event
+import com.paysafe.threedsecure.util.PendingIntentAndroidHelper
+import com.paysafe.threedsecure.util.getRequiredParcelableExtra
 
 class CardinalChallengeActivity : BaseActivity() {
 
@@ -38,7 +40,12 @@ class CardinalChallengeActivity : BaseActivity() {
         viewModel.result.observeForever(resultObserver)
 
         if (savedInstanceState == null) {
-            with(intent.getParcelableExtra<ChallengePayload>(EXTRA_CHALLENGE_PAYLOAD)) {
+            with(
+                intent.getRequiredParcelableExtra<ChallengePayload>(
+                    EXTRA_CHALLENGE_PAYLOAD,
+                    "Missing EXTRA_CHALLENGE_PAYLOAD"
+                )
+            ) {
                 viewModel.onValidateChallenge(
                     this@CardinalChallengeActivity,
                     this
@@ -64,7 +71,12 @@ class CardinalChallengeActivity : BaseActivity() {
                 Intent(context, CardinalChallengeActivity::class.java)
                     .putExtra(EXTRA_CHALLENGE_PAYLOAD, challengePayload)
             ) {
-                PendingIntent.getActivity(context, 0, this, PendingIntent.FLAG_UPDATE_CURRENT)
+                PendingIntentAndroidHelper.getActivity(
+                    context = context,
+                    requestCode = 0,
+                    intent = this,
+                    flags = PendingIntent.FLAG_UPDATE_CURRENT
+                )
             }
     }
 }

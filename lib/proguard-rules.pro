@@ -18,5 +18,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keep class com.paysafe.common.** { *; }
 -keep class com.paysafe.threedsecure.data.** { *; }
 -keep class com.cardinalcommerce.cardinalmobilesdk.** { *; }

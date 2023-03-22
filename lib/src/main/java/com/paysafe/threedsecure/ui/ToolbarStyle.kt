@@ -25,11 +25,11 @@ class ToolbarStyle private constructor(
     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     private constructor(parcel: Parcel) : this(
         textColor = parcel.readInt(),
-        textFontName = parcel.readString()!!,
+        textFontName = parcel.readString().toString(),
         textFontSize = parcel.readInt(),
         backgroundColor = parcel.readInt(),
-        buttonText = parcel.readString()!!,
-        headerText = parcel.readString()!!
+        buttonText = parcel.readString().toString(),
+        headerText = parcel.readString().toString()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
