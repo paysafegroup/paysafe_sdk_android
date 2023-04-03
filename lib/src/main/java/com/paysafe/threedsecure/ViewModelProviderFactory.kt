@@ -43,7 +43,7 @@ internal class ViewModelProviderFactory(
 
             registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacksAdapter() {
 
-                override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+                override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle) {
                     if (activity is BaseActivity) {
                         activity.factory = this@ViewModelProviderFactory
                     }
