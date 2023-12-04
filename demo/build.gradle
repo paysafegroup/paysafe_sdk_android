@@ -7,19 +7,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            url = uri("https://storage.googleapis.com/r8-releases/raw")
-        }
-    }
-    dependencies {
-        classpath 'com.android.tools:r8:3.2.67'
-    }
-}
-
-
 android {
     namespace "com.paysafe.demo"
     compileSdk 33
