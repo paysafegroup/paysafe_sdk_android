@@ -35,7 +35,7 @@ abstract class ActivityLifecycleCallbacksAdapter : Application.ActivityLifecycle
         // do nothing
     }
 
-    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle) {
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         // do nothing
     }
 }

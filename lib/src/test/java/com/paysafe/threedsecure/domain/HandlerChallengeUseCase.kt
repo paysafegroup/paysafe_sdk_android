@@ -6,7 +6,7 @@ package com.paysafe.threedsecure.domain
 
 import android.app.Activity
 import com.cardinalcommerce.cardinalmobilesdk.Cardinal
-import com.cardinalcommerce.cardinalmobilesdk.a.a.c
+import com.cardinalcommerce.cardinalmobilesdk.cm.models.CardinalError
 import com.cardinalcommerce.cardinalmobilesdk.models.CardinalActionCode
 import com.cardinalcommerce.cardinalmobilesdk.models.ValidateResponse
 import com.cardinalcommerce.cardinalmobilesdk.services.CardinalValidateReceiver
@@ -53,7 +53,7 @@ class HandlerChallengeUseCase {
 
         val mockCallback = mock<(Result<ChallengeData, ThreeDSecureError>) -> Unit>()
 
-        val validateResponse = ValidateResponse(false, cardinalActionCode, c(0, ""))
+        val validateResponse = ValidateResponse(cardinalActionCode, CardinalError(0, ""))
 
         val serverJwt = "serverJwt"
 

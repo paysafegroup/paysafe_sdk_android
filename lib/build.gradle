@@ -24,19 +24,15 @@ androidExtensions {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdk 33
 
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 7
-        versionName '1.0.11'
+        minSdkVersion 21
+        targetSdkVersion 33
         archivesBaseName = 'paysafe-mobile-sdk'
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        consumerProguardFiles 'proguard-rules.pro'
+        versionName "1.0.9"
+        versionCode 9
 
         buildConfigField("String", 'VERSION_NAME', "\"$versionName\"")
     }
@@ -76,7 +72,7 @@ task javadoc(type: Javadoc) {
     failOnError false
     source = android.sourceSets.main.java.sourceFiles
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += configurations.compile
+    classpath += configurations.implementation
 }
 
 task javadocJar(type: Jar) {
@@ -132,7 +128,7 @@ allOpen {
 
 dependencies {
 
-    implementation 'org.jfrog.cardinalcommerce.gradle:cardinalmobilesdk:2.2.3-2'
+    implementation 'org.jfrog.cardinalcommerce.gradle:cardinalmobilesdk:2.2.7-2'
 
     implementation "androidx.appcompat:appcompat:1.1.0"
 
