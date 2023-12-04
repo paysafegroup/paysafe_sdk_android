@@ -6,14 +6,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+
 android {
-    compileSdkVersion 29
+    namespace "com.paysafe.demo"
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.paysafe.demo"
-        minSdkVersion 19
+        minSdkVersion 21
         //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 29
+        targetSdkVersion 33
         versionCode 9
         versionName "1.0.10"
         multiDexEnabled true
@@ -63,6 +65,8 @@ dependencies {
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:${rootProject.lifecycle_version}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.4.0"
 
     // Navigation component
     implementation "androidx.navigation:navigation-fragment-ktx:${rootProject.nav_version}"

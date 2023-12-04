@@ -5,7 +5,7 @@
 package com.paysafe.threedsecure.domain
 
 import com.cardinalcommerce.cardinalmobilesdk.Cardinal
-import com.cardinalcommerce.cardinalmobilesdk.a.a.c
+import com.cardinalcommerce.cardinalmobilesdk.cm.models.CardinalError
 import com.cardinalcommerce.cardinalmobilesdk.models.CardinalActionCode
 import com.cardinalcommerce.cardinalmobilesdk.models.ValidateResponse
 import com.cardinalcommerce.cardinalmobilesdk.services.CardinalInitService
@@ -119,7 +119,7 @@ class StartUseCaseTest {
 
         val errorNumber = 13
         val errorDescription = "Expected description"
-        val validateResponse = ValidateResponse(false, CardinalActionCode.FAILURE, c(errorNumber, errorDescription))
+        val validateResponse = ValidateResponse(CardinalActionCode.FAILURE, CardinalError(errorNumber, errorDescription))
         val expectedError =
             ThreeDSecureError(
                 code = ThreeDSecureError.ERROR_CODE_INTERNAL_SDK_ERROR,
