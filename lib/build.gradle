@@ -31,8 +31,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         archivesBaseName = 'paysafe-mobile-sdk'
-        versionName "1.0.10"
-        versionCode 10
+        versionName "1.0.11"
+        versionCode 11
 
         buildConfigField("String", 'VERSION_NAME', "\"$versionName\"")
     }
@@ -128,7 +128,7 @@ allOpen {
 
 dependencies {
 
-    implementation 'org.jfrog.cardinalcommerce.gradle:cardinalmobilesdk:2.2.7-2'
+    implementation 'org.jfrog.cardinalcommerce.gradle:cardinalmobilesdk:2.2.7-5'
 
     implementation "androidx.appcompat:appcompat:1.1.0"
 

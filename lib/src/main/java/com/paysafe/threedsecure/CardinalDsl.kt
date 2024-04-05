@@ -6,7 +6,6 @@ package com.paysafe.threedsecure
 
 import android.content.Context
 import android.graphics.Typeface
-import com.cardinalcommerce.a.setWidth
 import com.cardinalcommerce.cardinalmobilesdk.Cardinal
 import com.cardinalcommerce.cardinalmobilesdk.enums.CardinalEnvironment
 import com.cardinalcommerce.cardinalmobilesdk.enums.CardinalRenderType
@@ -119,7 +118,7 @@ internal class UiCustomizationBuilder {
 
 }
 
-internal abstract class CustomizationBuilder<T : setWidth> {
+internal abstract class CustomizationBuilder<T> {
 
     var textColor: String = ""
     var textFontName: String = Typeface.DEFAULT.toString()
