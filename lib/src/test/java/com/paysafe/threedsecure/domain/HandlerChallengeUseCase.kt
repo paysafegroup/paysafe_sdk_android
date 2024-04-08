@@ -53,7 +53,7 @@ class HandlerChallengeUseCase {
 
         val mockCallback = mock<(Result<ChallengeData, ThreeDSecureError>) -> Unit>()
 
-        val validateResponse = ValidateResponse(cardinalActionCode, CardinalError(0, ""))
+        val validateResponse = ValidateResponse(true, cardinalActionCode, CardinalError(0, ""))
 
         val serverJwt = "serverJwt"
 

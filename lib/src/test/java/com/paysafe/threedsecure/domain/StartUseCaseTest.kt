@@ -119,7 +119,7 @@ class StartUseCaseTest {
 
         val errorNumber = 13
         val errorDescription = "Expected description"
-        val validateResponse = ValidateResponse(CardinalActionCode.FAILURE, CardinalError(errorNumber, errorDescription))
+        val validateResponse = ValidateResponse(true, CardinalActionCode.FAILURE, CardinalError(errorNumber, errorDescription))
         val expectedError =
             ThreeDSecureError(
                 code = ThreeDSecureError.ERROR_CODE_INTERNAL_SDK_ERROR,
