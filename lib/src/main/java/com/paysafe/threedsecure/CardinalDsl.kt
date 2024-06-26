@@ -118,7 +118,7 @@ internal class UiCustomizationBuilder {
 
 }
 
-internal abstract class CustomizationBuilder<T> {
+internal abstract class CustomizationBuilder<T : Customization> {
 
     var textColor: String = ""
     var textFontName: String = Typeface.DEFAULT.toString()
