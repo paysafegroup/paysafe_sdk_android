@@ -5,7 +5,7 @@
 package com.paysafe.threedsecure.data
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 
 @Parcelize

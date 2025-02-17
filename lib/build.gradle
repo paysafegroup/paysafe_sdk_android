@@ -4,11 +4,11 @@
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'de.mobilej.unmock'
 apply plugin: 'kotlin-allopen'
 apply plugin: 'jacoco'
 apply plugin: 'maven-publish'
+apply plugin: 'org.jetbrains.kotlin.plugin.parcelize'
 
 jacoco {
     toolVersion = "$jacocoVersion"
@@ -19,14 +19,9 @@ tasks.withType(Test) {
     jacoco.excludes = ['jdk.internal.*']
 }
 
-androidExtensions {
-    experimental = true
-}
-
 android {
     compileSdk 33
-
-
+    namespace = "com.paysafe"
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 33
@@ -36,7 +31,9 @@ android {
 
         buildConfigField("String", 'VERSION_NAME', "\"$versionName\"")
     }
-
+    buildFeatures {
+        buildConfig = true
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -159,8 +156,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     group = "Reporting"
 
     reports {
-        html.enabled true
-        xml.enabled true
+        html.required.set(true)
+        xml.required.set(true)
     }
 
     def fileFilter = ['**/R.class',
@@ -193,7 +190,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 
 jacoco {
     toolVersion = "0.8.4"
-    reportsDir = file("$buildDir/jacocoReportDir")
+    reportsDirectory = file("$buildDir/jacocoReportDir")
 }
 
 sonarqube {

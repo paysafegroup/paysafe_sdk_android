@@ -134,5 +134,5 @@ data class UserLogin(
 
 fun twelveDigitRandomAlphanumeric(): String {
     val random = SecureRandom()
-    return java.math.BigInteger(60, random).toString(32).toUpperCase()
+    return java.math.BigInteger(60, random).toString(32).uppercase()
 }
