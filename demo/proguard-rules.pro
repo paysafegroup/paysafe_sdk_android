@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class org.bouncycastle.** { *; }
+-keep class com.cardinalcommerce.cardinalmobilesdk.** { *; }
+### following warnings became errors after update to AGP/Gradle 8.+
+-dontwarn org.bouncycastle.**
+-dontwarn com.cardinalcommerce.dependencies.internal.minidev.asm.Accessor
+-dontwarn com.cardinalcommerce.dependencies.internal.minidev.asm.BeansAccess
+-dontwarn com.cardinalcommerce.dependencies.internal.minidev.asm.ConvertDate
+-dontwarn com.cardinalcommerce.dependencies.internal.minidev.asm.FieldFilter
