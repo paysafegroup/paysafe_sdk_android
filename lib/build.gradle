@@ -26,8 +26,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         archivesBaseName = 'paysafe-mobile-sdk'
-        versionName "1.0.15"
-        versionCode 15
+        versionName "1.0.16"
+        versionCode 16
 
         buildConfigField("String", 'VERSION_NAME', "\"$versionName\"")
     }
@@ -125,6 +125,10 @@ unMock {
 
 allOpen {
     annotation("com.paysafe.Mockable")
+}
+
+tasks.named('publishMavenPublicationToMavenLocal') {
+    dependsOn tasks.named('bundleDebugAar')
 }
 
 dependencies {
