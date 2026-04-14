@@ -8,7 +8,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     namespace "com.paysafe.demo"
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.paysafe.demo"
@@ -50,7 +50,8 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.appcompat:appcompat:${rootProject.appcompat_version}"
+    implementation "androidx.fragment:fragment-ktx:1.8.9"
+
     implementation "androidx.core:core-ktx:${rootProject.android_ktx_version}"
     implementation "androidx.constraintlayout:constraintlayout:${rootProject.constraint_layout_version}"
     implementation project(":lib")

@@ -5,12 +5,22 @@
 package com.paysafe.threedsecure.data.api
 
 import android.net.Uri
-import com.paysafe.*
+import com.paysafe.ApiRequest
+import com.paysafe.ApiResponse
+import com.paysafe.PaysafeApiClient
 import com.paysafe.common.Error
+import com.paysafe.mock
+import com.paysafe.safeAny
+import com.paysafe.safeEq
 import com.paysafe.threedsecure.ThreeDSecureError
-import com.paysafe.threedsecure.data.*
+import com.paysafe.threedsecure.data.Card
+import com.paysafe.threedsecure.data.EventType
+import com.paysafe.threedsecure.data.FinalizeRequest
+import com.paysafe.threedsecure.data.JwtRequest
+import com.paysafe.threedsecure.data.JwtResponse
+import com.paysafe.threedsecure.data.LogRequest
 import com.paysafe.util.Result
-import org.junit.Before
+import com.paysafe.whenEver
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -22,18 +32,7 @@ class NetbanxApiTest {
 
     private val client = mock<PaysafeApiClient>()
 
-    private val generateGUID = mock<() -> String>()
-
-    private val tested = NetbanxApi(client, generateGUID)
-
-    @Before
-    fun setUp() {
-        whenEver(
-            generateGUID()
-        ).thenReturn("correlationId")
-
-        tested.correlationId = "correlationId"
-    }
+    private val tested = NetbanxApi(client, "correlationId")
 
     @Test
     fun `jwt() returns success`() {

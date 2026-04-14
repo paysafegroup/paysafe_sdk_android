@@ -21,3 +21,13 @@
 -keep class com.paysafe.common.** { *; }
 -keep class com.paysafe.threedsecure.data.** { *; }
 -keep class com.cardinalcommerce.cardinalmobilesdk.** { *; }
+
+-keep class org.bouncycastle.**
+-keep class com.nimbusds.**
+
+-keep class com.cardinalcommerce.** {
+public <methods>;
+public <fields>;
+public *;
+private *;
+}

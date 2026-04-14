@@ -4,18 +4,22 @@
 
 package com.paysafe.threedsecure.v2
 
-import android.app.Activity
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.cardinalcommerce.cardinalmobilesdk.Cardinal
+import com.cardinalcommerce.cardinalmobilesdk.models.CardinalChallengeObserver
+import com.cardinalcommerce.cardinalmobilesdk.models.ValidateResponse
 import com.paysafe.mock
 import com.paysafe.safeAny
 import com.paysafe.safeEq
 import com.paysafe.threedsecure.ThreeDSecureError
 import com.paysafe.threedsecure.data.ChallengeData
+import com.paysafe.threedsecure.data.ChallengePayload
 import com.paysafe.threedsecure.data.ChallengeResult
 import com.paysafe.threedsecure.data.FinalizeStatus
 import com.paysafe.threedsecure.domain.FinalizeUseCase
 import com.paysafe.threedsecure.domain.HandleChallengeUseCase
+import com.paysafe.threedsecure.domain.HandleSuccessfulChallengeUseCase
 import com.paysafe.threedsecure.ui.v2.CardinalChallengeViewModel
 import com.paysafe.threedsecure.util.Event
 import com.paysafe.util.Result
@@ -25,8 +29,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mockito
-import org.mockito.Mockito.*
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 
 @Suppress("UNCHECKED_CAST")
 @RunWith(JUnit4::class)
@@ -36,19 +40,52 @@ class CardinalChallengeViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     private val handleChallengeUseCase = mock<HandleChallengeUseCase>()
+    private val handleSuccessfulChallengeUseCase = mock<HandleSuccessfulChallengeUseCase>()
     private val finalizeUseCase = mock<FinalizeUseCase>()
+    private val cardinal = mock<Cardinal>()
 
     private val tested =
-        CardinalChallengeViewModel(handleChallengeUseCase, finalizeUseCase)
+        CardinalChallengeViewModel(handleChallengeUseCase, handleSuccessfulChallengeUseCase, finalizeUseCase)
 
     @Test
-    fun `onValidateChallenge() finalizes the authentication and returns the authentication ID`() {
+    fun `handleChallenge() calls the handleChallengeUseCase with correct parameters`() {
         // given
-        val expectedActivity = mock(Activity::class.java)
-        val challenge = createChallenge()
+        val cardinalChallengeObserver = mock<CardinalChallengeObserver>()
+        val challengePayload = ChallengePayload(
+            authId = "anyAuthId",
+            accountId = "anyAccountId",
+            transactionId = "anyTransactionId",
+            payload = "any",
+            threeDSecureVersion = "2.0",
+        )
 
-        whenEver(handleChallengeUseCase(safeAny(), safeEq(challenge), safeAny())).thenAnswer {
-            with(it.arguments[2] as (Result<ChallengeData, ThreeDSecureError>) -> Unit) {
+        // when
+        tested.handleChallenge(cardinalChallengeObserver, challengePayload, cardinal)
+
+        // then
+        verify(handleChallengeUseCase).invoke(
+            cardinalChallengeObserver,
+            challengePayload,
+            cardinal
+        )
+    }
+
+    @Test
+    fun `onChallengePassed() finalizes the authentication and returns the authentication ID`() {
+        // given
+        val challenge = createChallenge()
+        val serverJwt = "anyServerJwt"
+        val challengePayload = ChallengePayload(
+            authId = challenge.authId,
+            accountId = challenge.accountId,
+            transactionId = challenge.transactionId,
+            payload = "any",
+            threeDSecureVersion = "2.0",
+        )
+        val validateResponse = mock<ValidateResponse>()
+
+        whenEver(handleSuccessfulChallengeUseCase.invoke(safeEq(challengePayload), safeEq(validateResponse), safeEq(serverJwt), safeAny())).thenAnswer {
+            with(it.arguments[3] as (Result<ChallengeData, ThreeDSecureError>) -> Unit) {
                 this(
                     Result.Success(
                         ChallengeData(
@@ -79,20 +116,28 @@ class CardinalChallengeViewModelTest {
         tested.result.observeForever(mockResultObserver)
 
         // when
-        tested.onValidateChallenge(expectedActivity, challenge)
+        tested.onChallengePassed(challengePayload, validateResponse, serverJwt)
 
         // then
         verify(mockResultObserver).onChanged(safeEq(Event(ChallengeResult.Success(challenge.authId))))
     }
 
     @Test
-    fun `onValidateChallenge() finalizes the authentication and returns error`() {
+    fun `onChallengePassed() finalizes the authentication and returns error`() {
         // given
-        val expectedActivity = mock(Activity::class.java)
         val challenge = createChallenge()
+        val serverJwt = "anyServerJwt"
+        val challengePayload = ChallengePayload(
+            authId = challenge.authId,
+            accountId = challenge.accountId,
+            transactionId = challenge.transactionId,
+            payload = "any",
+            threeDSecureVersion = "2.0",
+        )
+        val validateResponse = mock<ValidateResponse>()
 
-        whenEver(handleChallengeUseCase(safeAny(), safeEq(challenge), safeAny())).thenAnswer {
-            with(it.arguments[2] as (Result<ChallengeData, ThreeDSecureError>) -> Unit) {
+        whenEver(handleSuccessfulChallengeUseCase.invoke(safeEq(challengePayload), safeEq(validateResponse), safeEq(serverJwt), safeAny())).thenAnswer {
+            with(it.arguments[3] as (Result<ChallengeData, ThreeDSecureError>) -> Unit) {
                 this(
                     Result.Success(
                         ChallengeData(
@@ -127,7 +172,7 @@ class CardinalChallengeViewModelTest {
         tested.result.observeForever(mockResultObserver)
 
         // when
-        tested.onValidateChallenge(expectedActivity, challenge)
+        tested.onChallengePassed(challengePayload, validateResponse, serverJwt)
 
         // then
         verify(mockResultObserver).onChanged(safeEq(Event(ChallengeResult.Failure(error))))
