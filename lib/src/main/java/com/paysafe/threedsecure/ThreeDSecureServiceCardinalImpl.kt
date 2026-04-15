@@ -52,17 +52,7 @@ internal class ThreeDSecureServiceCardinalImpl(
     ) = ChallengeResolution(
         CardinalChallengeActivity.createStartIntent(
             context.applicationContext,
-            it.data
+            it.data,
         )
     )
-
-    companion object {
-
-        private const val THREE_DS_VERSION_2_PREFIX = "2."
-
-    }
 }
-
-
-
-

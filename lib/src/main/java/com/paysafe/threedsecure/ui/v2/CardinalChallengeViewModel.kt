@@ -4,33 +4,37 @@
 
 package com.paysafe.threedsecure.ui.v2
 
-import android.app.Activity
-import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.paysafe.threedsecure.data.ChallengeData
+import com.cardinalcommerce.cardinalmobilesdk.Cardinal
+import com.cardinalcommerce.cardinalmobilesdk.models.CardinalChallengeObserver
+import com.cardinalcommerce.cardinalmobilesdk.models.ValidateResponse
 import com.paysafe.threedsecure.data.ChallengePayload
-import com.paysafe.threedsecure.data.FinalizeStatus
-import com.paysafe.util.Result
 import com.paysafe.threedsecure.domain.FinalizeUseCase
 import com.paysafe.threedsecure.domain.HandleChallengeUseCase
+import com.paysafe.threedsecure.domain.HandleSuccessfulChallengeUseCase
 import com.paysafe.threedsecure.ui.BaseViewModel
+import com.paysafe.util.Result
 
 internal class CardinalChallengeViewModel(
     private val handleChallengeUseCase: HandleChallengeUseCase,
+    private val handleSuccessfulChallengeUseCase: HandleSuccessfulChallengeUseCase,
     finalizeUseCase: FinalizeUseCase
 ) : BaseViewModel(finalizeUseCase) {
 
-    fun onValidateChallenge(activity: Activity, challengePayload: ChallengePayload) {
-        handleChallengeUseCase(activity, challengePayload) {
-            with(it as Result.Success) { finalize(data) }
-        }
+    fun handleChallenge(
+        cardinalChallengeObserver: CardinalChallengeObserver,
+        challengePayload: ChallengePayload,
+        cardinal: Cardinal
+    ) {
+        handleChallengeUseCase(cardinalChallengeObserver, challengePayload, cardinal)
     }
 
-    companion object {
-
-        @VisibleForTesting
-        internal const val REQUEST_CODE_CARDINAL_CHALLENGE = 1
-
+    fun onChallengePassed(
+        challengePayload: ChallengePayload,
+        validateResponse: ValidateResponse,
+        serverJwt: String?
+    ) {
+        handleSuccessfulChallengeUseCase(challengePayload, validateResponse, serverJwt) {
+            with(it as Result.Success) { finalize(data) }
+        }
     }
 }

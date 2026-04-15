@@ -20,16 +20,18 @@ tasks.withType(Test) {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
     namespace = "com.paysafe"
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 33
         archivesBaseName = 'paysafe-mobile-sdk'
-        versionName "1.0.16"
-        versionCode 16
+        versionName "1.1.0"
+        versionCode 17
 
         buildConfigField("String", 'VERSION_NAME', "\"$versionName\"")
+
+        consumerProguardFiles 'proguard-rules.pro'
     }
     buildFeatures {
         buildConfig = true
@@ -108,7 +110,7 @@ publishing {
                         dependency.excludeRules.forEach { ExcludeRule exclusion ->
                             def exclusionNode = exclusionsNode.appendNode('exclusion')
                             exclusionNode.appendNode('groupId', exclusion.group)
-                            exclusionNode.appendNode('artefactId', exclusion.module)
+                            exclusionNode.appendNode('artifactId', exclusion.module)
                         }
                     }
                 }
@@ -133,9 +135,15 @@ tasks.named('publishMavenPublicationToMavenLocal') {
 
 dependencies {
 
-    implementation 'org.jfrog.cardinalcommerce.gradle:cardinalmobilesdk:2.2.7-5'
+    implementation 'org.jfrog.cardinalcommerce.gradle:cardinalmobilesdk:2.2.7-8'
 
-    implementation "androidx.appcompat:appcompat:1.1.0"
+    // Cardinal references these at runtime; R8 fails in host release builds if they are missing from the classpath.
+    implementation('com.google.crypto.tink:tink-android:1.15.0') {
+        exclude group: 'androidx.annotation', module: 'annotation-jvm'
+    }
+    implementation 'net.jcip:jcip-annotations:1.0'
+
+    implementation "androidx.appcompat:appcompat:1.7.1"
 
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
     implementation "androidx.lifecycle:lifecycle-common-java8:2.1.0"
@@ -143,17 +151,17 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:3.12.0"
     implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
 
-    implementation "com.google.code.gson:gson:2.8.5"
+    implementation "com.google.code.gson:gson:2.13.2"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    testImplementation "junit:junit:4.12"
-    testImplementation "org.mockito:mockito-core:3.0.0"
-    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.mockito:mockito-core:3.8.0"
+    testImplementation 'androidx.arch.core:core-testing:2.2.0'
 
     unmock "org.robolectric:android-all:4.3_r2-robolectric-0"
 
-    androidTestImplementation "androidx.test:runner:1.2.0"
+    androidTestImplementation "androidx.test:runner:1.7.0"
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
@@ -193,7 +201,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 
 
 jacoco {
-    toolVersion = "0.8.4"
+    toolVersion = "0.8.14"
     reportsDirectory = file("$buildDir/jacocoReportDir")
 }
 

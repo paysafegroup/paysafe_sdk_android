@@ -5,7 +5,9 @@
 package com.paysafe.threedsecure
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.cardinalcommerce.cardinalmobilesdk.enums.CardinalEnvironment
 import com.paysafe.Environment
@@ -14,9 +16,9 @@ import com.paysafe.PaysafeDsl
 import com.paysafe.threedsecure.data.api.NetbanxApi
 import com.paysafe.threedsecure.domain.ProcessPayloadUseCase
 import com.paysafe.threedsecure.domain.StartUseCase
+import com.paysafe.threedsecure.ui.BaseActivity
 import com.paysafe.threedsecure.ui.UiStyle
-import java.util.*
-
+import com.paysafe.threedsecure.util.ActivityLifecycleCallbacksAdapter
 
 
 /**
@@ -108,7 +110,6 @@ interface ThreeDSecureService {
          */
         fun withUiStyle(uiStyle: UiStyle) = also { this.uiStyle = uiStyle }
 
-
         fun build(): ThreeDSecureService {
             check(::context.isInitialized) { "Context is required, but missing" }
             check(::apiClient.isInitialized) { "API Client is required, but missing" }
@@ -197,13 +198,29 @@ interface ThreeDSecureService {
                 }
             }
 
-            val api = NetbanxApi(apiClient) {
-                UUID.randomUUID().toString()
-            }.also { ViewModelProviderFactory(it, cardinal).bindToActivityLifecycle(context) }
+            val netbanxApi = NetbanxApi(apiClient)
+
+            with(context.applicationContext as Application) {
+                registerActivityLifecycleCallbacks(
+                    object : ActivityLifecycleCallbacksAdapter() {
+
+                        override fun onActivityCreated(
+                            activity: Activity,
+                            savedInstanceState: Bundle?
+                        ) {
+                            if (activity is BaseActivity) {
+                                activity.cardinal = cardinal
+                                activity.netbanxApi = netbanxApi
+                            }
+                        }
+
+                    }
+                )
+            }
 
             return ThreeDSecureServiceCardinalImpl(
-                StartUseCase(api, cardinal),
-                ProcessPayloadUseCase()
+                startUseCase = StartUseCase(netbanxApi, cardinal),
+                processPayloadUseCase = ProcessPayloadUseCase(),
             )
         }
 

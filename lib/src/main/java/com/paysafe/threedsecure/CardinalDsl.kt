@@ -7,6 +7,7 @@ package com.paysafe.threedsecure
 import android.content.Context
 import android.graphics.Typeface
 import com.cardinalcommerce.cardinalmobilesdk.Cardinal
+import com.cardinalcommerce.cardinalmobilesdk.enums.CCADatabase
 import com.cardinalcommerce.cardinalmobilesdk.enums.CardinalEnvironment
 import com.cardinalcommerce.cardinalmobilesdk.enums.CardinalRenderType
 import com.cardinalcommerce.cardinalmobilesdk.enums.CardinalUiType
@@ -58,6 +59,7 @@ internal class CardinalBuilder {
             uiCustomization = this@CardinalBuilder.uiCustomization
             uiType = this@CardinalBuilder.uiType
             isEnableDFSync = true
+            setCCAUrl(CCADatabase.CGKURLS)
         }
 }
 

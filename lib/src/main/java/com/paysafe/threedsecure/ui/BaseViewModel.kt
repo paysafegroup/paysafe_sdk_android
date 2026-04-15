@@ -9,9 +9,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.paysafe.threedsecure.data.ChallengeData
 import com.paysafe.threedsecure.data.ChallengeResult
-import com.paysafe.util.Result
 import com.paysafe.threedsecure.domain.FinalizeUseCase
 import com.paysafe.threedsecure.util.Event
+import com.paysafe.util.Result
 
 internal open class BaseViewModel(private val finalizeUseCase: FinalizeUseCase) : ViewModel() {
 
@@ -20,7 +20,7 @@ internal open class BaseViewModel(private val finalizeUseCase: FinalizeUseCase) 
         get() = _result
 
     protected fun finalize(challengeData: ChallengeData) =
-        finalizeUseCase(challengeData ) {
+        finalizeUseCase(challengeData) {
         when (it) {
             is Result.Success -> _result.value = Event(ChallengeResult.Success(challengeData.authenticationId))
             is Result.Failure -> _result.value = Event(ChallengeResult.Failure(it.error))

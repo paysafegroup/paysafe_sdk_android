@@ -5,26 +5,31 @@
 package com.paysafe.threedsecure.data.api
 
 import android.net.Uri
+import android.os.Parcelable
 import androidx.annotation.VisibleForTesting
 import com.paysafe.ApiRequest
 import com.paysafe.ApiResponse
 import com.paysafe.Mockable
 import com.paysafe.PaysafeApiClient
 import com.paysafe.threedsecure.ThreeDSecureError
-import com.paysafe.threedsecure.data.*
+import com.paysafe.threedsecure.data.Card
+import com.paysafe.threedsecure.data.EventType
+import com.paysafe.threedsecure.data.FinalizeRequest
+import com.paysafe.threedsecure.data.JwtRequest
+import com.paysafe.threedsecure.data.JwtResponse
+import com.paysafe.threedsecure.data.LogRequest
 import com.paysafe.util.Result
+import kotlinx.parcelize.Parcelize
+import java.util.UUID
 
 @Mockable
-internal class NetbanxApi constructor(
+@Parcelize
+internal class NetbanxApi(
     private val apiClient: PaysafeApiClient,
-    private val generateGUID: () -> String
-) {
-
-    @VisibleForTesting
-    internal var correlationId = ""
+    private val correlationId: String = UUID.randomUUID().toString(),
+): Parcelable {
 
     internal fun jwt(cardBin: String, callback: (Result<JwtResponse, ThreeDSecureError>) -> Unit) {
-        correlationId = generateGUID()
         ApiRequest(
             JWT_URI,
             JwtRequest(apiClient.account, Card(cardBin)),

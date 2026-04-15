@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import com.cardinalcommerce.cardinalmobilesdk.models.CardinalChallengeObserver
 import com.paysafe.threedsecure.data.ChallengePayload
 import com.paysafe.threedsecure.data.ChallengeResult
 import com.paysafe.threedsecure.data.toIntent
@@ -20,6 +21,13 @@ import com.paysafe.threedsecure.util.getRequiredParcelableExtra
 class CardinalChallengeActivity : BaseActivity() {
 
     private val viewModel by lazy { getViewModel<CardinalChallengeViewModel>() }
+
+    private val challengePayload by lazy {
+        intent.getRequiredParcelableExtra<ChallengePayload>(
+            EXTRA_CHALLENGE_PAYLOAD,
+            "Missing EXTRA_CHALLENGE_PAYLOAD"
+        )
+    }
 
     private val resultObserver: Observer<Event<ChallengeResult>> = Observer { event ->
         event.getValueIfNotHandled()?.let {
@@ -39,18 +47,16 @@ class CardinalChallengeActivity : BaseActivity() {
          */
         viewModel.result.observeForever(resultObserver)
 
+        val observer = CardinalChallengeObserver(this) { _, validateResponse, serverJwt ->
+            viewModel.onChallengePassed(challengePayload, validateResponse, serverJwt)
+        }
+
         if (savedInstanceState == null) {
-            with(
-                intent.getRequiredParcelableExtra<ChallengePayload>(
-                    EXTRA_CHALLENGE_PAYLOAD,
-                    "Missing EXTRA_CHALLENGE_PAYLOAD"
-                )
-            ) {
-                viewModel.onValidateChallenge(
-                    this@CardinalChallengeActivity,
-                    this
-                )
-            }
+            viewModel.handleChallenge(
+                observer,
+                challengePayload,
+                cardinal
+            )
         }
     }
 
@@ -65,7 +71,7 @@ class CardinalChallengeActivity : BaseActivity() {
 
         internal fun createStartIntent(
             context: Context,
-            challengePayload: ChallengePayload
+            challengePayload: ChallengePayload,
         ) =
             with(
                 Intent(context, CardinalChallengeActivity::class.java)

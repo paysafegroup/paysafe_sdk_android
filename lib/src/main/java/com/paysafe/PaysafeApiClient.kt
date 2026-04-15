@@ -4,12 +4,28 @@
 
 package com.paysafe
 
+import android.os.Parcelable
 import androidx.annotation.VisibleForTesting
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.paysafe.common.ErrorResponse
-import com.paysafe.util.*
-import okhttp3.*
+import com.paysafe.util.MainThreadScheduler
+import com.paysafe.util.basicAuth
+import com.paysafe.util.gson
+import com.paysafe.util.logger
+import com.paysafe.util.okHttpClient
+import com.paysafe.util.toMap
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Headers
+import okhttp3.HttpUrl
+import okhttp3.MediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -19,18 +35,21 @@ import java.util.concurrent.TimeUnit
  * A client that handles HTTP communication with the Paysafe APIs.
  */
 @Mockable
+@Parcelize
 class PaysafeApiClient internal constructor(
     internal val keyId: String,
     internal val keyPassword: String,
     internal val account: String,
     internal val environment: Environment,
-    connectionTimeout: Long,
-    readTimeout: Long,
-    isHttpLoggingEnabled: Boolean
-) {
+    internal val connectionTimeout: Long,
+    internal val readTimeout: Long,
+    internal val isHttpLoggingEnabled: Boolean
+): Parcelable {
 
+    @IgnoredOnParcel
     private val baseUrl = HttpUrl.get(environment.url)
 
+    @IgnoredOnParcel
     private val httpClient: OkHttpClient = okHttpClient {
         connectTimeout(connectionTimeout, TimeUnit.MILLISECONDS)
         readTimeout(readTimeout, TimeUnit.MILLISECONDS)
@@ -47,8 +66,10 @@ class PaysafeApiClient internal constructor(
         }
     }
 
+    @IgnoredOnParcel
     private val gson: Gson = gson {}
 
+    @IgnoredOnParcel
     private val callbackHandler = MainThreadScheduler()
 
     internal final inline fun <reified T> execute(
@@ -77,7 +98,7 @@ class PaysafeApiClient internal constructor(
                 try {
                     val apiResponse: ApiResponse<T> = processResponse(responseType, response)
                     callbackHandler.post { callback(apiResponse) }
-                } catch (e: JsonParseException) {
+                } catch (_: JsonParseException) {
                     callbackHandler.post {
                         callback(
                             ApiResponse.Failure.InternalSdkError(
@@ -115,7 +136,7 @@ class PaysafeApiClient internal constructor(
         val headers = response.headers().toMap()
 
         return when {
-            errorResponse.error == null -> ApiResponse.Failure.InternalSdkError(null, headers);
+            errorResponse.error == null -> ApiResponse.Failure.InternalSdkError(null, headers)
 
             ERROR_CODE_INVALID_MERCHANT_CONFIGURATION == errorResponse.error.code -> ApiResponse.Failure.InvalidMerchantConfiguration(
                 errorResponse.error,
