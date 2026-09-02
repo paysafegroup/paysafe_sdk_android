@@ -26,7 +26,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         archivesBaseName = 'paysafe-mobile-sdk'
-        versionName "1.1.0"
+        versionName "1.1.1"
         versionCode 17
 
         buildConfigField("String", 'VERSION_NAME', "\"$versionName\"")

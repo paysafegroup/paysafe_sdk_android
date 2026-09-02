@@ -43,24 +43,15 @@ internal class NetbanxApi(
         serverJwt: String?,
         callback: (Result<Unit, ThreeDSecureError>) -> Unit
     ) =
-        with(
-            Uri.Builder()
-                .appendPath(THREE_D_SECURE_ENDPOINT)
-                .appendPath(VERSION)
-                .appendPath(PATH_SEGMENT_ACCOUNTS)
-                .appendPath(accountId)
-                .appendPath(PATH_SEGMENT_AUTHENTICATIONS)
-                .appendPath(authenticationId)
-                .appendPath(PATH_SEGMENT_FINALIZE)
-                .build()
-                .toString()
-        ) {
-            ApiRequest(
-                this,
-                FinalizeRequest(serverJwt),
-                mapOf(HEADER_CORRELATION_ID to correlationId)
-            ).executeWith(callback)
-        }
+        ApiRequest(
+            finalizePath(accountId, authenticationId),
+            FinalizeRequest(serverJwt),
+            mapOf(HEADER_CORRELATION_ID to correlationId)
+        ).executeWith(callback)
+
+    private fun finalizePath(accountId: String, authenticationId: String) =
+        "$THREE_D_SECURE_ENDPOINT/$VERSION/$PATH_SEGMENT_ACCOUNTS/$accountId/$PATH_SEGMENT_AUTHENTICATIONS/$authenticationId/$PATH_SEGMENT_FINALIZE"
+
 
     internal fun log(
         evenType: EventType,

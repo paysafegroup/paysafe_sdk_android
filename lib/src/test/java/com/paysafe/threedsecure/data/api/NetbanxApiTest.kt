@@ -338,16 +338,7 @@ class NetbanxApiTest {
         serverJwt: String
     ) =
         ApiRequest(
-            path = Uri.Builder()
-                .appendPath("threedsecure")
-                .appendPath("v2")
-                .appendPath("accounts")
-                .appendPath(accountId)
-                .appendPath("authentications")
-                .appendPath(authenticationId)
-                .appendPath("finalize")
-                .build()
-                .toString(),
+            path = "threedsecure/v2/accounts/$accountId/authentications/$authenticationId/finalize",
             body = FinalizeRequest(serverJwt),
             headers = mapOf(NetbanxApi.HEADER_CORRELATION_ID to "correlationId")
         )
