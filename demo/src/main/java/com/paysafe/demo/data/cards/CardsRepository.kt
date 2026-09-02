@@ -13,13 +13,13 @@ object CardsRepository {
         PaymentCard(
             "4000000000001091",
             "123",
-            "01/26",
+            "01/30",
             "3DS 2.0"
         ),
         PaymentCard(
             "4000000000001000",
             "123",
-            "01/26",
+            "01/30",
             "Frictionless"
         )
     )
